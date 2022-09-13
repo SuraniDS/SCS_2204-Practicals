@@ -2,29 +2,32 @@ object Q4 extends App {
 
   var accountList:List[Account] = List()
 
-  def accCreate(nic:String, accId: Int):Unit = {
+  def createAcc(nic:String, accId: Int):Unit = {
     val acc = new Account(nic, accId)
     accountList = accountList ::: acc :: Nil
-    println(accountList)
   }
 
-  val find = (a:Int, b:List[Account]) => b.filter(account => account.accId.equals(a))
-  val overdraft = (b:List[Account]) => b.filter(account => account.balance < 0.0)
-  val totalBalance = (b:List[Account]) => b.foldLeft(0.0)((x, y) => x + y.balance)
-  val interest = (b:List[Account]) => b.map(account => if(account.balance > 0) account.balance*0.05 else account.balance*0.1)
+  val find = (id:Int, accList:List[Account]) => accList.filter(account => account.accId.equals(id))
+  val overdraft = (accList:List[Account]) => accList.filter(account => account.accBalance < 0.0)
+  val totalBalance = (accList:List[Account]) => accList.foldLeft(0.0)((x, y) => x + y.accBalance)
+  val interest = (accList:List[Account]) => accList.map(account => if(account.accBalance > 0) {account.accBalance*0.05} else {account.accBalance*0.1})
 
-  accCreate("1",1)
-  accCreate("2",2)
+  createAcc("001",1)
+  createAcc("002",2)
+  println(accountList)
 
-  find(1, accountList)(0).deposit(1000)
+  find(1, accountList)(0).deposit(10000)
   println(find(1, accountList)(0))
 
+  find(1, accountList)(0).transfer(2, 10100.0)
+  println(accountList)
   find(1, accountList)(0).transfer(2, 100.0)
-  println(find(2, accountList)(0))
+  println(accountList)
 
   println(overdraft(accountList))
 
   println(totalBalance(accountList))
 
   println(interest(accountList))
+
 }
