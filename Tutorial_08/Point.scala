@@ -4,9 +4,9 @@ case class Point(var x:Int, var y:Int) {
 
     def add(p: Point) =  new Point(this.x + p.x, this.y + p.y)
 
-    def move(x: Int, y: Int): Unit = {
-        this.x = this.x + x
-        this.y = this.y + y
+    def move(dx: Int, dy: Int): Unit = {
+        this.x = this.x + dx
+        this.y = this.y + dy
     }
 
     def distance(p: Point): Double ={
